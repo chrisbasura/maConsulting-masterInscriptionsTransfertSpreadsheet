@@ -22,13 +22,13 @@ function setAllInscriptionsTriggers() {
   Logger.log("Set All Inscriptions Triggers");  
   ScriptApp.newTrigger('transfertAllCommercialInscriptionsToRegieInscriptions')
   .timeBased()
-  .atHour(19)
+  .atHour(22)
   .inTimezone("Europe/Paris")
   .everyDays(1)
   .create();
   ScriptApp.newTrigger('transfertAllRegieInscriptionsToGeneralInscriptions')
   .timeBased()
-  .atHour(6)
+  .atHour(23)
   .inTimezone("Europe/Paris")
   .everyDays(1)
   .create();
@@ -67,7 +67,7 @@ function transfertAllCommercialInscriptionsToRegieInscriptions() {
   for (var i=0;i<listOfInscriptions.length;i++) {
     now = new Date();
     var result = Trainingmanagementlibrary.transfertCommercialInscriptionsToRegieInscriptions(SpreadsheetApp.openById(listOfInscriptions[i].id));
-    rows.push([now, listOfInscriptions[i].name, listOfInscriptions[i].id, result.status, result.description]);
+    rows.push([now, listOfInscriptions[i].name, listOfInscriptions[i].id, result.status, result.numberOfInscriptionsTransfered, result.description]);
   }
   if (rows.length>0) {
     var reportSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Commerciaux->Regie (Etape 1->2)");
@@ -97,7 +97,7 @@ function transfertAllRegieInscriptionsToGeneralInscriptions() {
   for (var i=0;i<listOfInscriptions.length;i++) {
     now = new Date();
     var result = Trainingmanagementlibrary.transfertRegieInscriptionsToGeneralInscriptions(SpreadsheetApp.openById(listOfInscriptions[i].id));
-    rows.push([now, listOfInscriptions[i].name, listOfInscriptions[i].id, result.status, result.description]);
+    rows.push([now, listOfInscriptions[i].name, listOfInscriptions[i].id, result.status, result.numberOfInscriptionsTransfered, result.description]);
   }
   if (rows.length>0) {
     var reportSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Regie->General (Etape 2->3)");
