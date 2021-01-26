@@ -1,3 +1,37 @@
+/*
+function patchAllCommercialLeads() {
+
+  const folders = DriveApp.getFolderById("1DDFWCEEFIEpG6FQObkeCRLZFGnZtH7aX").getFolders();
+  while (folders.hasNext()) {
+    const folder = folders.next();
+    if (folder.getName().indexOf("Régie") != -1) { 
+      var regie = folder.getName().replace("Régie ","");
+      const subFolders = folder.getFoldersByName("Commerciaux Leads");
+      while (subFolders.hasNext()) {
+        const subfolder = subFolders.next();
+        const subfolderFiles = subfolder.getFiles();
+        while (subfolderFiles.hasNext()) {
+          const subfolderFile = subfolderFiles.next();
+          if (subfolderFile.getName().toLowerCase().indexOf(" leads") != -1) {
+            var spreadsheet = SpreadsheetApp.openById(subfolderFile.getId());
+            spreadsheet.getSheetByName("LEADS").insertColumnsBefore(10, 1);
+            spreadsheet.getRange('J1').setValue('Commentaire');
+            spreadsheet.getRange('O1').setValue('Détails relance');
+            spreadsheet.getSheetByName("Parametres techniques").getRange('D1:D11').setValues([["Liste de status"],["Pas intéressé"],["Pas éligible"],["Doublon"],["Faux numéro"],["A rappeler"],["NRP2"],["NRP3"],["NRP4"],["NRP4+"],["Signé"]]);
+            spreadsheet.getSheetByName("Parametres techniques").getRange('D1').setBackground('#fce5cd');
+            spreadsheet.getSheetByName("LEADS").getRange('I2:I530').setDataValidation(SpreadsheetApp.newDataValidation()
+            .setAllowInvalid(false)
+            .setHelpText('Toute autre information est à rajouter dans la colonne Commentaires')
+            .requireValueInRange(spreadsheet.getRange('\'Parametres techniques\'!$D$2:$D'), true)
+            .build());
+          }
+        }
+      }
+    }
+  }  
+}
+*/
+
 function patchAllInscriptions() {
   const folders = DriveApp.getFolderById("1DDFWCEEFIEpG6FQObkeCRLZFGnZtH7aX").getFolders();
   var listOfInscriptions = [];
